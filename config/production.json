@@ -1,0 +1,7 @@
+{
+  "NODE_ENV": "production",
+  "BASE_URL": "http://moscownodejs.ru",
+
+  "GITHUB_CLIENT_ID": "89f1faaa81474700a502",
+  "GITHUB_CLIENT_SECRET": "eeed40a77fc55417fed8cc2ba69c4a555e043209"
+}

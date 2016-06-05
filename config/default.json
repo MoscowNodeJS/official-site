@@ -1,0 +1,15 @@
+{
+  "NODE_ENV": "development",
+  "PORT": 3000,
+  "BASE_URL": "http://localhost:3000",
+  "MONGO_URL": "mongodb://localhost:27017/moscow-nodejs",
+
+  "GITHUB_CLIENT_ID": "99c8517af34d4ce42d34",
+  "GITHUB_CLIENT_SECRET": "d7e276c2ad3e044df13bd91ecc4c79cb35f43f05",
+
+  "ADMINS": [
+    "vmakhaev@gmail.com",
+    "izmaylov.dm@gmail.com",
+    "vladimir.kurchatkin@gmail.com"
+  ]
+}
