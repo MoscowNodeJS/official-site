@@ -11,7 +11,7 @@ class TalkList extends Component {
     let { model } = this.context
 
     let subscribes = {
-      talks: ['talks', {$orderby: {votes: -1}}]
+      talks: ['talks', {deleted: {$ne: true}, $orderby: {votes: -1}}]
     }
 
     let loggedIn = model.get('_session.loggedIn')

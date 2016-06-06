@@ -47,12 +47,10 @@ store.preHook = async (op, session, params) => {
     if (!talk.name || !talk.description || !talk.userId || !talk.date) {
       throw new Error('Talk should contain all fields')
     }
-    if (talk.userId !== userId) throw new Error('Users can not create talks for other users')
-
-    return
+    if (talk.userId === userId) return
   }
 
-  if (collectionName === 'talks' && type === 'del') {
+  if (collectionName === 'talks' && type === 'set') {
     let user = await model.fetchAndGet('users', userId)
     let isAdmin = adminEmails.indexOf(user.email) !== -1
     if (isAdmin) return
@@ -66,8 +64,9 @@ store.preHook = async (op, session, params) => {
     if (!vote.talkId || !vote.userId || !vote.date) {
       throw new Error('Vote should contain all fields')
     }
+    let user = await model.fetchAndGet('users', vote.userId)
     let talk = await model.fetchAndGet('talks', vote.talkId)
-    if (talk && talk.userId !== userId) return
+    if (user && talk && talk.userId !== userId) return
   }
 
   if (collectionName === 'votes' && type === 'del') {

@@ -13,12 +13,13 @@ class Talk extends Component {
     return {
       user: ['users', talk.userId],
       votes: ['votes', {talkId: talk.id}],
-      userId: ['_session', 'userId']
+      userId: ['_session', 'userId'],
+      loggedIn: ['_session', 'loggedIn']
     }
   }
 
   render () {
-    let { talk, user, votes, isAdmin, userId } = this.props
+    let { talk, user, votes, isAdmin, userId, loggedIn } = this.props
     let { username } = user
 
     let vote = votes.find((vote) => vote.userId === user.id)
@@ -36,9 +37,11 @@ class Talk extends Component {
           <div>
             {canDelete && <a style={styles.del} onClick={this.onDelete}>Del</a>}
             <span> +{talk.votes || 0} </span>
-            {talk.userId === userId
-              ? <span style={styles.vote}>my</span>
-              : <a style={styles.vote} onClick={this.onVote}>{vote ? '-1' : '+1'}</a>}
+            {loggedIn && (
+              talk.userId === userId
+                ? <span style={styles.vote}>my</span>
+                : <a style={styles.vote} onClick={this.onVote}>{vote ? '-1' : '+1'}</a>
+            )}
           </div>
         </div>
       </div>
@@ -50,7 +53,7 @@ class Talk extends Component {
     let { model } = this.context
 
     if (window.confirm('Delete?')) {
-      model.del('talks', talk.id)
+      model.set(['talks', talk.id, 'deleted'], true)
         .catch((err) => window.alert(err))
     }
   }
