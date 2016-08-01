@@ -30,9 +30,17 @@ class TalkList extends Component {
 
     return (
       <div style={styles.container}>
-        <h2>Talks:</h2>
+        <h1>Talks</h1>
         {talks.map((talk) => <Talk key={talk.id} talk={talk} isAdmin={isAdmin} />)}
         {user && <TalkCreate />}
+        {!user && (
+          <div>
+            <a style={styles.login} href='/auth/github'>
+              <span>Login</span>
+            </a>
+            <span> to add a talk or vote</span>
+          </div>
+        )}
       </div>
     )
   }
@@ -44,6 +52,9 @@ const styles = {
     padding: 20,
     paddingBottom: 50,
     backgroundColor: '#222'
+  },
+  login: {
+    color: '#fff'
   }
 }
 

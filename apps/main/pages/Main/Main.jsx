@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Content, Header, Layout } from '../../../../components/layout'
-import { Announcement, TalkList } from './components'
+import { Announcement, Slides, TalkList } from './components'
 
 class Main extends Component {
 
@@ -9,6 +9,7 @@ class Main extends Component {
       <Layout>
         <Header title='Moscow NodeJS Meetup' />
         <Content>
+          <Slides />
           <Announcement />
           <TalkList />
         </Content>

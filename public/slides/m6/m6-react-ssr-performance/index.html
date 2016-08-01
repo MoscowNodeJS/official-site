@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Shower Presentation Engine</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="shower/themes/ribbon/styles/screen-16x10.css">
+    <style type="text/css">
+        table td {
+            padding-right: 15px;
+        }
+    </style>
+</head>
+<body class="shower list">
+    <header class="caption">
+        <h1>React.js with server side rendering</h1>
+        <p><a href="http://github.com/maiordom">Вадим Жуланов</a>, <a href="rambler-co.ru">Rambler&Co</a></p>
+    </header>
+    <section class="slide" id="cover">
+        <h2>Приключения электроника</h2>
+        <img src="pictures/cover.jpg" alt="" class="cover">
+        <style>
+            #cover h2 {
+                margin:30px 0 0;
+                color:#FFF;
+                text-align:center;
+                font-size:70px;
+                }
+        </style>
+    </section>
+    <section class="slide">
+        <h2>Что имеем</h2>
+        <ol>
+            <li>Монолитное приложение на PHP</li>
+            <li>Сложная процедура выливки на машину</li>
+            <li>Долгая доставка фич до пользователя</li>
+            <li>Легаси код и прочие радости технического долга</li>
+        </ol>
+    </section>
+    <section class="slide">
+        <h2>Микросервисная архитектура</h2>
+        <ol>
+            <li>Заметно проще и быстрее выкатить фичу</li>
+            <li>Определяем узкие места бекенда</li>
+            <li>Возможность нагрузочных стрельб по фронту и бекенду</li>
+        </ol>
+    </section>
+    <section class="slide">
+        <h2>Строим Node.js приложение</h2>
+        <ol>
+            <li>Express.js</li>
+            <li>React.js + Redux.js</li>
+            <li>PM2</li>
+            <li>ESLint, Webpack, Nodemon</li>
+            <li>Общение с api по JSON-RPC 2.0</li>
+            <li>cluster, 4 ядра процесора</li>
+        </ol>
+    </section>
+    <section class="slide">
+        <h2>По итогу 3 страницы</h2>
+        <table>
+            <tr>
+                <td>Страница</td>
+                <td>Объем</td>
+                <td>node</td>
+                <td>Холодный старт</td>
+                <td>Прогрелись</td>
+            </tr>
+            <tr>
+                <td>Главная</td>
+                <td>103кб</td>
+                <td>720 node</td>
+                <td>50ms</td>
+                <td>35ms</td>
+            </tr>
+            <tr>
+                <td>Выдача</td>
+                <td>170кб</td>
+                <td>500 node</td>
+                <td>30ms</td>
+                <td>18ms</td>
+            </tr>
+            <tr>
+                <td>Карточка объявления</td>
+                <td>60kb</td>
+                <td>375 node</td>
+                <td>20ms</td>
+                <td>10ms</td>
+            </tr>
+        </table>
+    </section>
+    <section class="slide">
+        <h2>Первый раз</h2>
+        <ul>
+            <li>А теперь пробуем стрелять в приложение, очень волнительно</li>
+            <li class="next">Кстати используем Yandex Tank</li>
+            <li class="next">Все умеет и даже больше, может таксишку заказать</li>
+            <li class="next">Так вот, стреляем и все падает</li>
+            <li class="next">Отвалился вначале nginx, потом сеть, а потом и машинка</li>
+            <li class="next">А почему? Потому что node.js и api жили на одной машине</li>
+            <li class="next">api приложение съело процессор на 20 rps</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <h2>День второй</h2>
+        <ul>
+            <li>Разносим на разные машины приложения</li>
+            <li class="next">Пульки для танка заряжены, каски надеты</li>
+            <li class="next">Давим кнопку "была не была"</li>
+            <li class="next">30 rps и 8 ядер, которые использует api загружены на 100%</li>
+            <li class="next">О_о?</li>
+            <li class="next">Тайминги node.js при этом никак не росли, все хорошо</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <h2>Надо подумать</h2>
+        <ul>
+            <li>Бекенд начал крутить гайки</li>
+            <li>Фронт думать, как проверить производительность приложения</li>
+            <li>Redis был ответом, кешируем ответ api, стреляем</li>
+            <li>50 rps, 4 ядра приложения на node.js загружены на 100%, время ответа выросло до 300-400ms</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <h2>Очевидные оптимизации</h2>
+        <ul>
+            <li>NODE_ENV=production</li>
+            <li>125 rps, line(1, 10, 1m) line(10, 125, 1m) const(125, 20m)</li>
+            <li>Среднее время ответа при стрельбе 49ms</li>
+            <li>Загруженность процессора 70-80%</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <h2>Что же дало NODE_ENV=production в качестве оптимизации</h2>
+        <table>
+            <tr>
+                <td></td>
+                <td>Холодный старт</td>
+                <td>После прогрева</td>
+            </tr>
+            <tr>
+                <td>Главная</td>
+                <td>35ms</td>
+                <td>17ms</td>
+            </tr>
+            <tr>
+                <td>Выдача</td>
+                <td>15ms</td>
+                <td>7ms</td>
+            </tr>
+            <tr>
+                <td>Карточка объявления</td>
+                <td>17ms</td>
+                <td>8ms</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="slide">
+        <h2>Чуть чуть надавим</h2>
+        <ul>
+            <li>Стрельба в 150rps</li>
+            <li>line(1, 10, 1m) line(10, 125, 5m) line(125, 150, 5m) const(150, 20m)</li>
+            <li>До 125 все хорошо, при подходе к 150 начинают линейно расти тайминги</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Используем react/dist/react.min</h2>
+        <p>Стреляем 125rps</p>
+        <p>Профит настолько низкий, что его нужно смотреть на графике</p>
+    </section>
+
+    <section class="slide">
+        <h2>Думаем как выжать больше</h2>
+        <ul>
+            <li>Придумали, храним компиляцию реакта в redis</li>
+            <li>Даем 250rps</li>
+            <li><code>md5(initialState) => React.renderToString(App, store)</code></li>
+            <li>Среднее время ответа 30ms</li>
+            <li>Процессор 65-70%</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Почти финиш</h2>
+        <table>
+            <tr>
+                <td>Нагрузка</td>
+                <td>Среднее время ответа</td>
+                <td>Процессор</td>
+            </tr>
+            <tr>
+                <td>250rps</td>
+                <td>52ms</td>
+                <td>80-90%</td>
+            </tr>
+            <tr>
+                <td>350rps</td>
+                <td>75ms</td>
+                <td>95-100%</td>
+            </tr>
+            <tr>
+                <td>450rps</td>
+                <td>80ms</td>
+                <td>100% в зеленой зоне</td>
+            </tr>
+            <tr>
+                <td>500rps</td>
+                <td>> 1s</td>
+                <td>100% в красной зоне</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="slide">
+        <h2>Когда все плохо, отдаем рендер на откуп браузеру</h2>
+        <p>Стреляем в приложение без ssr</p>
+        <p>Нехватает воркеров у nginx</p>
+        <p>800rps, среднее время ответа 10ms, загрузка процессора 80-90%</p>
+    </section>
+
+    <section class="slide">
+        <h2>Стоит проверить</h2>
+        <p>Есть <a href="http://www.youtube.com/watch?v=PnpfGy7q96U">видео</a> с магией, используя которую случился прирост производительности.</p>
+        <p>Использовать <code>Class</code> вместо <code>React.createClass</code></p>
+    </section>
+
+    <section class="slide">
+        <h2>Спасибо за внимание :)</h2>
+        <p><a href="http://github.com/maiordom">github/maiordom</a></p>
+        <p><a href="maiordo@yandex.ru">maiordom@yandex.ru</a></p>
+    </section>
+
+    <div class="progress"></div>
+    <script src="shower/shower.min.js"></script>
+</body>
+</html>

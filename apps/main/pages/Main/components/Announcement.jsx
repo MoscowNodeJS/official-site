@@ -5,8 +5,10 @@ class Announcement extends Component {
   render () {
     return (
       <div style={styles.container}>
-        <h1>Next Meetup - end of June</h1>
-        <a style={styles.details} href='http://www.meetup.com/Moscow-NodeJS-Meetup' target='_blank'>Details</a>
+        <h1>
+          Next Meetup -&nbsp;
+          <a style={styles.link} href='http://www.meetup.com/Moscow-NodeJS-Meetup' target='_blank'>coming soon</a>
+        </h1>
       </div>
     )
   }
@@ -21,8 +23,8 @@ const styles = {
     padding: 20,
     backgroundColor: '#222'
   },
-  details: {
-    color: '#fff'
+  link: {
+    color: '#669F64'
   }
 }
 
