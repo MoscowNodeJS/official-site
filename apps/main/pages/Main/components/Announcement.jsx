@@ -6,7 +6,7 @@ class Announcement extends Component {
     return (
       <div style={styles.container}>
         <h1>
-          Next Meetup -&nbsp;
+          Meetup Next -&nbsp;
           <a style={styles.link} href='http://www.meetup.com/Moscow-NodeJS-Meetup' target='_blank'>coming soon</a>
         </h1>
       </div>
@@ -19,7 +19,7 @@ const styles = {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    // alignItems: 'center',
     padding: 20,
     backgroundColor: '#222'
   },

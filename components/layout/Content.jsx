@@ -34,7 +34,7 @@ const styles = {
     backgroundRepeat: 'no-repeat'
   },
   content: {
-    maxWidth: 800,
+    maxWidth: 900,
     display: 'flex',
     flexDirection: 'column',
     justifyItems: 'center',

@@ -9,7 +9,7 @@ class TalkCreate extends Component {
   render () {
     return (
       <div style={styles.container}>
-        <h4>Wanna give a talk? Fill the form. Format: ~5 min, ~10 slides</h4>
+        <h4>Wanna give a talk? Fill the form. Format: 5-15 min, 10-50 slides</h4>
         <input ref='name' style={styles.input} placeholder='Name' />
         <textarea ref='description' style={styles.input} placeholder='Description' />
         <a style={styles.button} onClick={this.onClick}>Create</a>
